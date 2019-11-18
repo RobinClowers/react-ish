@@ -6,24 +6,32 @@ interface DomNode {
 const renderComponent = (): DomNode => {
   return {
     tag: 'div',
-    children: 'hello world',
+    children: [{
+      tag: 'h1',
+      children: 'hello world',
+    }, {
+      tag: 'p',
+      children: 'wow, so cool',
+    }],
   }
 }
 
-const renderChildren = (node: DomNode) => {
+const render = (node: DomNode): Element => {
+  const el = document.createElement(node.tag)
   if (node.children instanceof Array) {
     node.children.map(n => render(n))
+    for (const n of node.children) {
+      el.appendChild(render(n))
+    }
   }
-  return node.children
-}
-
-const render = (node: DomNode): string => {
-  return `<${node.tag}>${renderChildren(node)}</${node.tag}>`
+  if (typeof node.children === 'string') {
+    el.appendChild(document.createTextNode(node.children))
+  }
+  return el
 }
 
 const rendered = render(renderComponent())
-console.log(rendered)
 const element = document.getElementById('app')
 if (element) {
-  element.innerHTML = rendered
+  element.appendChild(rendered)
 }
