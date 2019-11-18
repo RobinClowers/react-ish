@@ -4,6 +4,7 @@
     "types": ["node"],
     "target": "es2017",
     "module": "commonjs",
+    "sourceMaps": true,
     "strict": true,
     "allowJs": true,
     "esModuleInterop": true,

@@ -1,18 +1,25 @@
 export interface DomNode {
   tag: string;
-  children: DomNode[] | string | null;
+  props: {
+    [key: string]: any;
+    children?: DomNode[];
+  }
+}
+
+export interface Attribute {
+  [key: string]: string;
 }
 
 export const render = (node: DomNode): Element => {
   const el = document.createElement(node.tag)
-  if (node.children instanceof Array) {
-    node.children.map(n => render(n))
-    for (const n of node.children) {
-      el.appendChild(render(n))
+  if (node.props.children instanceof Array) {
+    for (const n of node.props.children) {
+      if (n.tag === 'TEXT') {
+        el.appendChild(document.createTextNode(n.props.value))
+      } else {
+        el.appendChild(render(n))
+      }
     }
-  }
-  if (typeof node.children === 'string') {
-    el.appendChild(document.createTextNode(node.children))
   }
   return el
 }

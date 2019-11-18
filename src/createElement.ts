@@ -1,6 +1,19 @@
-export const createElement = (tag, ...children) => {
+import { Attribute, DomNode } from './dom'
+
+export type Child = string | DomNode
+
+export const createElement = (
+  tag: string,
+  props?: Attribute[],
+  ...children: Child[]
+): DomNode => {
   return {
     tag,
-    children,
+    props: {
+      ...props,
+      children: children.map((c: string | DomNode) => (
+        typeof c === 'string' ? { tag: 'TEXT', props: { value: c } } : c
+      )),
+    }
   }
 }
