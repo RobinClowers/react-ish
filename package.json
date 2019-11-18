@@ -4,5 +4,8 @@
   "main": "index.ts",
   "author": "Robin Clowers <robin.clowers@gmail.com>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@types/node": "^12.12.8"
+  }
 }
