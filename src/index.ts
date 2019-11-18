@@ -6,13 +6,20 @@ interface DomNode {
 const renderComponent = (): DomNode => {
   return {
     tag: 'div',
-    children: [{
-      tag: 'h1',
-      children: 'hello world',
-    }, {
-      tag: 'p',
-      children: 'wow, so cool',
-    }],
+    children: [
+      renderHeader({ text: 'The title' }),
+      {
+        tag: 'p',
+        children: 'wow, so cool',
+      }
+    ],
+  }
+}
+
+const renderHeader = ({ text }: { text: string }): DomNode => {
+  return {
+    tag: 'h1',
+    children: text,
   }
 }
 
