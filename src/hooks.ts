@@ -18,7 +18,7 @@ export const resetStateIndex = () => {
 export type UseState<T> = [T, (value: T) => void]
 
 export const useState = <T>(initialValue: T): UseState<T> => {
-  if (!state[stateIndex]) {
+  if (state[stateIndex] === undefined) {
     state[stateIndex] = initialValue
   }
   const key = stateIndex
