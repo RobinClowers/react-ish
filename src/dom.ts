@@ -22,6 +22,7 @@ export const update = (state: State) => {
 }
 
 export const render = (component: Component, target: HTMLElement, state: State = {}): void => {
+  console.debug('--- render ---')
   rootComponent = component
   rootElement = target
 

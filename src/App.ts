@@ -3,37 +3,52 @@ import { createElement } from './createElement'
 import { useState } from './hooks'
 
 const renderComponent = (): DomNode => {
-  const [count, setCount] = useState(0)
-  const [title, setTitle] = useState('The title')
-  const [newTitle, setNewTitle] = useState(title)
-  const handleIncrement = () => {
-    setCount(count + 1)
-  }
-  const handleChangeTitle = (e: Event) => {
-    const target = e.target as HTMLInputElement
-    target.value && setNewTitle(target.value)
-  }
-  const handleSetTitle = () => {
-    setTitle(newTitle)
+  const [showCounter, setShowCounter] = useState(true)
+  const handleHideCounter = () => {
+    setShowCounter(!showCounter)
   }
   return createElement(
     'div',
     undefined,
-    renderHeader({ text: title }),
-    createElement('p', undefined, count.toString(),
-      createElement('br', undefined),
-      createElement('button', { onclick: handleIncrement }, 'increment'),
-    ),
+    (showCounter ? Counter() : null),
     createElement('p', undefined,
-      createElement('input', { type: 'text', value: newTitle, onchange: handleChangeTitle }),
-      createElement('br', undefined),
-      createElement('button', { onclick: handleSetTitle }, 'set title'),
-    )
+      createElement(
+        'button',
+        { onclick: handleHideCounter },
+        `${showCounter ? 'Hide' : 'Show'} counter`
+      ),
+    ),
+    renderHeader({ text: 'The title' }),
+  )
+}
+
+const Counter = (): DomNode => {
+  const [count, setCount] = useState(0)
+  const handleIncrement = () => {
+    setCount(count + 1)
+  }
+  return createElement(
+    'div',
+    undefined,
+    createElement('p', undefined, count.toString()),
+    createElement('br', undefined),
+    createElement('button', { onclick: handleIncrement }, 'increment')
   )
 }
 
 const renderHeader = ({ text }: { text: string }): DomNode => {
-  return createElement('h1', { title: text }, text)
+  const [color, setColor] = useState('black')
+  const handleClick = (e: Event) => {
+    if (color === 'black') {
+      setColor('red')
+    } else {
+      setColor('black')
+    }
+  }
+  return createElement('div', undefined,
+    createElement('h1', { style: `color: ${color}`, title: text }, text),
+    createElement('button', { onclick: handleClick }, 'change color')
+  )
 }
 
 export default renderComponent

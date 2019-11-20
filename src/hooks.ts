@@ -22,6 +22,7 @@ export const useState = <T>(initialValue: T): UseState<T> => {
     state[stateIndex] = initialValue
   }
   const key = stateIndex
+  console.debug('UseState', state[stateIndex], key)
   const result: UseState<T> = [
     state[stateIndex],
     (newValue: T) => {

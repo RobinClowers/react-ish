@@ -1,18 +1,24 @@
 import { Props, DomNode } from './dom'
 
-export type Child = string | DomNode
+type NonNullChild = string | DomNode
+export type Child = NonNullChild | null
 export type Component = () => DomNode
+
+const notEmpty = <T>(value: T | null | undefined): value is T => (
+  value !== null && value !== undefined
+)
 
 export const createElement = (
   tag: string,
   props?: Props,
   ...children: Child[]
 ): DomNode => {
+  const compacted: NonNullChild[] = children.filter(notEmpty)
   return {
     tag,
     props: {
       ...props,
-      children: children.map((c: string | DomNode) => (
+      children: compacted.map((c: NonNullChild) => (
         typeof c === 'string' ? { tag: 'TEXT', props: { value: c } } : c
       )),
     }
