@@ -2,7 +2,7 @@ import { Component, ElementType } from './createElement'
 import { State, resetStateIndex } from './hooks'
 
 export interface DomNode {
-  tag: ElementType;
+  type: ElementType;
   props: Props & {
     children?: DomNode[];
   }
@@ -32,10 +32,10 @@ export const render = (node: DomNode, target: HTMLElement, state: State = {}): v
 }
 
 const renderImpl = (node: DomNode): Element => {
-  if (typeof node.tag === 'function') {
-    return renderImpl(node.tag(node.props))
+  if (typeof node.type === 'function') {
+    return renderImpl(node.type(node.props))
   }
-  const el = document.createElement(node.tag)
+  const el = document.createElement(node.type)
   const { children, prototype, ...props } = node.props
   for (const key of Object.keys(props)) {
     (el as any)[key] = props[key]
@@ -43,7 +43,7 @@ const renderImpl = (node: DomNode): Element => {
 
   if (children instanceof Array) {
     for (const n of children) {
-      if (n.tag === 'TEXT') {
+      if (n.type === 'TEXT') {
         el.appendChild(document.createTextNode(n.props.value))
       } else {
         el.appendChild(renderImpl(n))

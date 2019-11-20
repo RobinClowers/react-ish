@@ -10,17 +10,17 @@ const notEmpty = <T>(value: T | null | undefined): value is T => (
 )
 
 export const createElement = (
-  tag: ElementType,
+  type: ElementType,
   props?: Props,
   ...children: Child[]
 ): DomNode => {
   const compacted: NonNullChild[] = children.filter(notEmpty)
   return {
-    tag,
+    type,
     props: {
       ...props,
       children: compacted.map((c: NonNullChild) => (
-        typeof c === 'string' ? { tag: 'TEXT', props: { value: c } } : c
+        typeof c === 'string' ? { type: 'TEXT', props: { value: c } } : c
       )),
     }
   }
