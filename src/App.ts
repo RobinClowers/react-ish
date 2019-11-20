@@ -11,7 +11,7 @@ const renderComponent = (): DomNode => {
 }
 
 const renderHeader = ({ text }: { text: string }): DomNode => {
-  return createElement('h1', undefined, text)
+  return createElement('h1', { title: text }, text)
 }
 
 export default renderComponent

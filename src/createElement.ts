@@ -1,10 +1,10 @@
-import { Attribute, DomNode } from './dom'
+import { Props, DomNode } from './dom'
 
 export type Child = string | DomNode
 
 export const createElement = (
   tag: string,
-  props?: Attribute[],
+  props?: Props,
   ...children: Child[]
 ): DomNode => {
   return {
