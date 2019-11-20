@@ -2,14 +2,15 @@ import { Props, DomNode } from './dom'
 
 type NonNullChild = string | DomNode
 export type Child = NonNullChild | null
-export type Component = () => DomNode
+export type Component = (props: any) => DomNode
+export type ElementType = string | Component
 
 const notEmpty = <T>(value: T | null | undefined): value is T => (
   value !== null && value !== undefined
 )
 
 export const createElement = (
-  tag: string,
+  tag: ElementType,
   props?: Props,
   ...children: Child[]
 ): DomNode => {

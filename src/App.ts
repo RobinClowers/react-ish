@@ -2,7 +2,7 @@ import { DomNode } from './dom'
 import { createElement } from './createElement'
 import { useState } from './hooks'
 
-const renderComponent = (): DomNode => {
+const App = (): DomNode => {
   const [showCounter, setShowCounter] = useState(true)
   const handleHideCounter = () => {
     setShowCounter(!showCounter)
@@ -10,7 +10,7 @@ const renderComponent = (): DomNode => {
   return createElement(
     'div',
     undefined,
-    (showCounter ? Counter() : null),
+    (showCounter ? createElement(Counter) : null),
     createElement('p', undefined,
       createElement(
         'button',
@@ -18,7 +18,7 @@ const renderComponent = (): DomNode => {
         `${showCounter ? 'Hide' : 'Show'} counter`
       ),
     ),
-    renderHeader({ text: 'The title' }),
+    createElement(Header, { text: 'The title' }),
   )
 }
 
@@ -36,7 +36,7 @@ const Counter = (): DomNode => {
   )
 }
 
-const renderHeader = ({ text }: { text: string }): DomNode => {
+const Header = ({ text }: { text: string }): DomNode => {
   const [color, setColor] = useState('black')
   const handleClick = (e: Event) => {
     if (color === 'black') {
@@ -51,5 +51,5 @@ const renderHeader = ({ text }: { text: string }): DomNode => {
   )
 }
 
-export default renderComponent
+export default App
 

@@ -1,10 +1,9 @@
-import { Component } from './createElement'
+import { Component, ElementType } from './createElement'
 import { State, resetStateIndex } from './hooks'
 
 export interface DomNode {
-  tag: string;
-  props: {
-    [key: string]: any;
+  tag: ElementType;
+  props: Props & {
     children?: DomNode[];
   }
 }
@@ -13,26 +12,29 @@ export interface Props {
   [key: string]: any;
 }
 
-let rootComponent: Component
+let rootNode: DomNode
 let rootElement: HTMLElement
 
 export const update = (state: State) => {
   resetStateIndex()
-  render(rootComponent, rootElement, state)
+  render(rootNode, rootElement, state)
 }
 
-export const render = (component: Component, target: HTMLElement, state: State = {}): void => {
+export const render = (node: DomNode, target: HTMLElement, state: State = {}): void => {
   console.debug('--- render ---')
-  rootComponent = component
+  rootNode = node
   rootElement = target
 
   while (target.hasChildNodes()) {
     target.lastChild && target.removeChild(target.lastChild);
   }
-  target.appendChild(renderImpl(component()))
+  target.appendChild(renderImpl(node))
 }
 
 const renderImpl = (node: DomNode): Element => {
+  if (typeof node.tag === 'function') {
+    return renderImpl(node.tag(node.props))
+  }
   const el = document.createElement(node.tag)
   const { children, prototype, ...props } = node.props
   for (const key of Object.keys(props)) {
