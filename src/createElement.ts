@@ -1,6 +1,7 @@
 import { Props, DomNode } from './dom'
 
 export type Child = string | DomNode
+export type Component = () => DomNode
 
 export const createElement = (
   tag: string,
