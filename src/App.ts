@@ -10,15 +10,17 @@ const App = (): DomNode => {
   return createElement(
     'div',
     undefined,
-    (showCounter ? createElement(Counter) : null),
-    createElement('p', undefined,
+    showCounter ? createElement(Counter) : null,
+    createElement(
+      'p',
+      undefined,
       createElement(
         'button',
         { onclick: handleHideCounter },
         `${showCounter ? 'Hide' : 'Show'} counter`
-      ),
+      )
     ),
-    createElement(Header, { text: 'The title' }),
+    createElement(Header, { text: 'The title' })
   )
 }
 
@@ -45,11 +47,12 @@ const Header = ({ text }: { text: string }): DomNode => {
       setColor('black')
     }
   }
-  return createElement('div', undefined,
+  return createElement(
+    'div',
+    undefined,
     createElement('h1', { style: `color: ${color}`, title: text }, text),
     createElement('button', { onclick: handleClick }, 'change color')
   )
 }
 
 export default App
-
